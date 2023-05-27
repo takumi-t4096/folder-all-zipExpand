@@ -1,13 +1,14 @@
-﻿# indlucde class
+﻿# include Class
 . $PSScriptRoot"\class\FolderDialog.ps1"
+. $PSScriptRoot"\class\MsgBox.ps1"
 
 
 function main() {
     [object] $fd = New-Object FolderDialog
+    [object] $mb = New-Object MsgBox
 
     if( !($fd.showDialog()) ) {
-        Write-Host "フォルダが選択されませんでした"
-        Write-Host "処理を停止しました"
+        $mb.warningMsg("フォルダが選択されませんでした`r`n処理を終了しました")
         exit
     }
     
@@ -15,8 +16,7 @@ function main() {
     [array] $zipFiles = Get-ChildItem $searchFilePath -File -Name
 
     if($zipFiles.Count -eq 0) {
-        Write-Host "フォルダ内に「.zip」ファイルが存在しません"
-        Write-Host "処理を停止しました"
+        $mb.warningMsg("フォルダ内に「.zip」ファイルが存在しません`r`n処理終了しました")
         exit
     }
 
